@@ -776,6 +776,18 @@ impl BlockBasedOptions {
             ffi::rocksdb_block_based_options_set_whole_key_filtering(self.inner, c_uchar::from(v));
         }
     }
+
+
+    /// Set the checksum used to verify the data.
+    ///
+    /// Default: kCRC32c = 0x1
+    /// No checksum: kNoChecksum = 0x0
+    /// For more options refer to RocksDB: include/rocksdb/table.h
+    pub fn set_checksum(&mut self, v: char) {
+        unsafe {
+            ffi::rocksdb_block_based_options_set_checksum(self.inner, v as c_char);
+        }
+	}
 }
 
 impl Default for BlockBasedOptions {
