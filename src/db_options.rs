@@ -97,17 +97,6 @@ impl Cache {
             ffi::rocksdb_cache_set_capacity(self.0.inner, capacity);
         }
     }
-
-    /// Set the checksum used to verify the data.
-    ///
-    /// Default: kCRC32c = 0x1
-    /// No checksum: kNoChecksum = 0x0
-    /// For more options refer to RocksDB: include/rocksdb/table.h
-    pub fn set_checksum(&mut self, v: char) {
-        unsafe {
-            ffi::rocksdb_block_based_options_set_checksum(self.inner, v as c_char);
-        }
-    }
 }
 
 /// An Env is an interface used by the rocksdb implementation to access
@@ -801,6 +790,17 @@ impl BlockBasedOptions {
     pub fn set_whole_key_filtering(&mut self, v: bool) {
         unsafe {
             ffi::rocksdb_block_based_options_set_whole_key_filtering(self.inner, v as u8);
+        }
+    }
+
+    /// Set the checksum used to verify the data.
+    ///
+    /// Default: kCRC32c = 0x1
+    /// No checksum: kNoChecksum = 0x0
+    /// For more options refer to RocksDB: include/rocksdb/table.h
+    pub fn set_checksum(&mut self, v: char) {
+        unsafe {
+            ffi::rocksdb_block_based_options_set_checksum(self.inner, v as c_char);
         }
     }
 }
